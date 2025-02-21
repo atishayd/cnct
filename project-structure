@@ -1,0 +1,22 @@
+job-application-automation/
+├── backend/
+│   ├── src/
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   ├── types/
+│   │   └── utils/
+│   ├── package.json
+│   └── tsconfig.json
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── types/
+│   │   └── utils/
+│   ├── package.json
+│   └── tsconfig.json
+└── docker-compose.yml 
