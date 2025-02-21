@@ -1,101 +1,61 @@
-Here's the complete README.md file content:
+# cnct
+A platform to automate job applications using AI for job detail extraction and email automation.
 
-```markdown:README.md
-# Job Application Automation Platform
 
-A platform to streamline the job application process by automating email outreach and tracking.
+## Prerequisites
 
-## Project Structure
-```bash
-job-application-automation/
-├── backend/         # Node.js/Express backend
-├── frontend/        # React frontend
-└── docker-compose.yml
-```
-
-## Getting Started
-
-### Prerequisites
-- Node.js (v14 or higher)
-- Docker and Docker Compose
-- MongoDB
-
-### Installation
-
-1. Clone the repository
-```bash
-git clone https://github.com/YOUR_USERNAME/job-application-automation.git
-cd job-application-automation
-```
-
-2. Install backend dependencies
-```bash
-cd backend
-npm install
-```
-
-3. Install frontend dependencies
-```bash
-cd ../frontend
-npm install
-```
-
-4. Start the development environment
-```bash
-docker-compose up
-```
-
-## Development
-
-- Backend runs on: http://localhost:4000
-- Frontend runs on: http://localhost:3000
-- MongoDB runs on: mongodb://localhost:27017
-
-## Team
-- Atishay: Backend Development
-- Ashwin: Frontend Development
-
-## Features
-
-- Job Detail Extraction
-  - Extract company name and job role from job posting links
-  - Supports multiple job platforms (LinkedIn, Indeed, Handshake)
-
-- Contact Identification
-  - Locate alumni and recruiters from target companies
-  - Generate and verify email addresses
-
-- Email Automation
-  - Customizable email templates
-  - Multiple sender email support
-  - Automated follow-up scheduling
-
-- Outreach Tracking
-  - Track company, role, and contact details
-  - Monitor email status and responses
-  - Follow-up scheduling
+- Node.js (v18 or higher)
+- npm (v9 or higher)
+- MongoDB (v6 or higher)
+- Docker and Docker Compose (optional)
 
 ## Tech Stack
 
 ### Frontend
-- React with TypeScript
+- React 18 with TypeScript
 - Tailwind CSS
-- React Router
-- Axios for API calls
+- Vite
+- React Router v6
+- Axios
 
 ### Backend
-- Node.js with Express
+- Node.js & Express
 - TypeScript
 - MongoDB with Mongoose
-- OpenAI API Integration
-- Email verification services
+- OpenAI API
+- Nodemailer
+- Winston Logger
 
-### DevOps
-- Docker and Docker Compose
-- MongoDB for database
-- Continuous Integration with GitHub Actions
+## Installation
 
-## Contributing
+1. Clone the repository
+```bash
+git clone https://github.com/atishaydikshit/cnct.git
+cd cnct
+```
+
+2. Install dependencies (from root directory)
+```bash
+npm install
+```
+
+3. Set up environment variables
+```bash
+cp .env.example .env
+# Edit .env with your configuration
+```
+
+4. Start development servers
+```bash
+# Start both frontend and backend
+npm run dev
+
+# Start individually
+npm run dev:frontend
+npm run dev:backend
+```
+
+## Development Workflow
 
 1. Create a new branch for your feature
 ```bash
@@ -105,7 +65,7 @@ git checkout -b feature/your-feature-name
 2. Make your changes and commit
 ```bash
 git add .
-git commit -m "Description of changes"
+git commit -m "feat: description of changes"
 ```
 
 3. Push to your branch
@@ -115,20 +75,67 @@ git push origin feature/your-feature-name
 
 4. Create a Pull Request on GitHub
 
+## API Documentation
+
+### Jobs
+- POST /api/jobs - Create new job
+- GET /api/jobs - List all jobs
+- GET /api/jobs/:id - Get specific job
+
+### Contacts
+- POST /api/contacts - Create new contact
+- GET /api/contacts - List all contacts
+- GET /api/contacts/:id - Get specific contact
+
 ## Environment Variables
 
-### Backend (.env)
-```env
-PORT=4000
-MONGODB_URI=mongodb://mongodb:27017/job_automation
-OPENAI_API_KEY=your_openai_api_key
-EMAIL_SERVICE_API_KEY=your_email_service_api_key
+Required environment variables:
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| PORT | Backend server port | 4000 |
+| MONGODB_URI | MongoDB connection string | mongodb+srv://... |
+| OPENAI_API_KEY | OpenAI API key | sk-... |
+| SMTP_HOST | Email server host | smtp.gmail.com |
+| SMTP_PORT | Email server port | 587 |
+| SMTP_USER | Email username | user@gmail.com |
+| SMTP_PASS | Email password/token | abcd efgh ijkl mnop |
+
+## Testing
+
+```bash
+# Run all tests
+npm test
+
+# Test setup
+npm run test:setup
 ```
 
-### Frontend (.env)
-```env
-VITE_API_URL=http://localhost:4000
-```
+## Deployment
+
+The application can be deployed using Docker:
+
+```bash
+docker-compose up -d
 ```
 
-You can copy this content and save it as `README.md` in your project's root directory. The file includes all the necessary information about the project structure, setup instructions, features, tech stack, and contribution guidelines.
+## Contributing
+
+1. Follow the branch naming convention:
+   - Features: feature/feature-name
+   - Fixes: fix/bug-name
+   - Hotfixes: hotfix/issue-name
+
+2. Commit message format:
+   - feat: new feature
+   - fix: bug fix
+   - docs: documentation changes
+   - style: formatting, missing semicolons, etc
+   - refactor: code restructuring
+   - test: adding tests
+   - chore: maintenance
+
+## License
+
+Private repository - All rights reserved
+```
