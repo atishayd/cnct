@@ -1,13 +1,4 @@
-import mongoose from 'mongoose';
-
-export interface IJob extends mongoose.Document {
-  companyName: string;
-  jobRole: string;
-  jobLink: string;
-  status: 'pending' | 'processing' | 'completed' | 'failed';
-  createdAt: Date;
-  updatedAt: Date;
-}
+const mongoose = require('mongoose');
 
 const jobSchema = new mongoose.Schema({
   companyName: { type: String, required: true },
@@ -20,4 +11,6 @@ const jobSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-export const Job = mongoose.model<IJob>('Job', jobSchema); 
+const Job = mongoose.model('Job', jobSchema);
+
+module.exports = { Job }; 

@@ -5,7 +5,10 @@ build/
 
 # Environment variables
 .env
-.env.*
+.env.local
+.env.*.local
+
+# But allow example file
 !.env.example
 
 # Logs
@@ -14,6 +17,8 @@ logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+error.log
+combined.log
 
 # Testing
 coverage/

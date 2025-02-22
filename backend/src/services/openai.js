@@ -1,9 +1,9 @@
-import OpenAI from 'openai';
-import { logger } from '../utils/logger';
+const OpenAI = require('openai');
+const { logger } = require('../utils/logger');
 
-// Move OpenAI client creation inside the function to ensure env vars are loaded
-export const extractJobDetails = async (jobDescription: string) => {
+const extractJobDetails = async (jobDescription) => {
   try {
+    console.log('OpenAI Key exists:', !!process.env.OPENAI_API_KEY);
     if (!process.env.OPENAI_API_KEY) {
       throw new Error('OpenAI API key is not configured');
     }
@@ -34,4 +34,6 @@ export const extractJobDetails = async (jobDescription: string) => {
     logger.error('Error extracting job details:', error);
     throw new Error('Failed to extract job details');
   }
-}; 
+};
+
+module.exports = { extractJobDetails }; 

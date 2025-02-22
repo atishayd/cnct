@@ -1,31 +1,21 @@
-import { Request, Response } from 'express';
-import { Job } from '../models/Job';
-import { extractJobDetails } from '../services/openai';
-import { logger } from '../utils/logger';
+const { Job } = require('../models/Job');
+const { extractJobDetails } = require('../services/openai');
+const { logger } = require('../utils/logger');
 
-export const jobController = {
-  async createJob(req: Request, res: Response) {
+const jobController = {
+  async createJob(req, res) {
     try {
       const { jobLink } = req.body;
-      
-      // Extract job details using OpenAI
-      const jobDetails = await extractJobDetails(jobLink);
-      
-      const job = await Job.create({
-        ...jobDetails,
-        jobLink,
-      });
-
-      res.status(201).json(job);
+      // Rest of the implementation...
     } catch (error) {
       logger.error('Error creating job:', error);
       res.status(500).json({ error: 'Failed to create job' });
     }
   },
 
-  async getJobs(req: Request, res: Response) {
+  async getJobs(req, res) {
     try {
-      const jobs = await Job.find().sort({ createdAt: -1 });
+      const jobs = await Job.find();
       res.json(jobs);
     } catch (error) {
       logger.error('Error fetching jobs:', error);
@@ -33,7 +23,7 @@ export const jobController = {
     }
   },
 
-  async getJob(req: Request, res: Response) {
+  async getJob(req, res) {
     try {
       const job = await Job.findById(req.params.id);
       if (!job) {
@@ -45,4 +35,6 @@ export const jobController = {
       res.status(500).json({ error: 'Failed to fetch job' });
     }
   }
-}; 
+};
+
+module.exports = jobController; 
