@@ -7,7 +7,7 @@ process.on('uncaughtException', (error) => {
 });
 
 // Load env with verbose logging
-const envPath = path.resolve(__dirname, '../../.env');
+const envPath = path.resolve(__dirname, '../.env');
 console.log('\n=== Environment Setup ===');
 console.log('Looking for .env at:', envPath);
 
@@ -45,6 +45,10 @@ const jobRoutes = require('./routes/jobRoutes');
 const authRoutes = require('./routes/authRoutes');
 const testRoutes = require('./routes/testRoutes');
 const contactRoutes = require('./routes/contactRoutes');
+const emailTemplateRoutes = require('./routes/emailTemplateRoutes');
+const senderRoutes = require('./routes/senderRoutes');
+const campaignRoutes = require('./routes/campaignRoutes');
+const analyticsRoutes = require('./routes/analyticsRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 4001;
@@ -53,45 +57,25 @@ const PORT = process.env.PORT || 4001;
 app.use(cors());
 app.use(express.json());
 
-// Basic route to test server
-app.get('/', (req, res) => {
-  res.json({ 
-    message: 'CNCT API is running',
-    environment: envCheck,
-    timestamp: new Date().toISOString()
-  });
-});
+// Connect to MongoDB
+connectDB();
 
 // Routes
 app.use('/api/jobs', jobRoutes);
-app.use('/auth', authRoutes);
-app.use('/test', testRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/test', testRoutes);
 app.use('/api/contacts', contactRoutes);
+app.use('/api/email-templates', emailTemplateRoutes);
+app.use('/api/senders', senderRoutes);
+app.use('/api/campaigns', campaignRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error('Error:', err);
-  res.status(500).json({
-    error: 'Internal Server Error',
-    message: err.message
-  });
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// Start server with better error handling
-const startServer = async () => {
-  try {
-    console.log('\n=== Server Startup ===');
-    await connectDB();
-    app.listen(PORT, () => {
-      console.log(`✅ Server is running at http://localhost:${PORT}`);
-    });
-  } catch (error) {
-    console.error('❌ Failed to start server:', error);
-    process.exit(1);
-  }
-};
-
-startServer().catch((error) => {
-  console.error('❌ Startup error:', error);
-  process.exit(1);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 }); 

@@ -3,23 +3,27 @@ const mongoose = require('mongoose');
 const contactSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  alternateEmails: [{ type: String }],
+  email: { type: String, required: true },
   company: { type: String, required: true },
-  role: { type: String, required: true },
-  isVerified: { type: Boolean, default: false },
-  verificationMethod: {
+  position: { type: String, required: true },
+  status: {
     type: String,
-    enum: ['gmail', 'smtp', 'hunter', 'manual'],
-    required: true
+    enum: ['uncontacted', 'contacted', 'responded', 'no_response'],
+    default: 'uncontacted'
   },
-  lastVerified: {
-    type: Date,
-    default: Date.now
-  },
-  notes: { type: String }
+  lastContactDate: Date,
+  nextFollowUpDate: Date,
+  jobId: { type: mongoose.Schema.Types.ObjectId, ref: 'Job' },
+  emailHistory: [{
+    subject: String,
+    content: String,
+    sentDate: Date,
+    status: {
+      type: String,
+      enum: ['sent', 'delivered', 'opened', 'replied', 'bounced'],
+      default: 'sent'
+    }
+  }]
 }, { timestamps: true });
 
-const Contact = mongoose.model('Contact', contactSchema);
-
-module.exports = { Contact }; 
+module.exports = mongoose.model('Contact', contactSchema); 
